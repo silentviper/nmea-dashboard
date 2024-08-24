@@ -1,0 +1,60 @@
+.ToggleSwitch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    font-size: 12px;
+    color: #fff;
+    padding: 4px;
+
+    .switchBtn {
+        border-radius: 4px;
+        height: 70px;
+        width: 70px;
+        background: rgb(161,161,161);
+        background: radial-gradient(circle, 
+            rgba(161,161,161,1) 0%, 
+            rgba(187,187,187,1) 45%,
+            rgba(0,212,255,1) 45%,
+            rgba(0,212,255,1) 55%,
+            rgb(176, 176, 176) 55%,
+            rgb(176, 176, 176) 60%,
+            rgb(205, 205, 205) 65%,
+            rgba(42,42,42,0.25) 70%,
+            rgba(42,42,42,0) 70%
+        );
+
+        -webkit-transition: background 1s ease;  
+        -moz-transition: background 1s ease;  
+        -o-transition: background 1s ease;  
+        transition: background 1s ease;  
+
+        &.on {
+            background: rgb(161,161,161);
+            background: radial-gradient(circle, 
+                rgba(161,161,161,1) 0%, 
+                rgba(187,187,187,1) 45%,
+                rgb(0, 255, 42) 45%,
+                rgb(0, 255, 145) 55%,
+                rgb(176, 176, 176) 55%,
+                rgb(176, 176, 176) 60%,
+                rgb(205, 205, 205) 65%,
+                rgba(42,42,42,0.25) 70%,
+                rgba(42,42,42,0) 70%
+            );
+
+            transition: background 3s ease;
+        }
+    }
+
+    &.enabled {
+        // @extend .btn-success;
+        
+    }
+}
+
+.enabled {
+    background-color: #4CAF50;
+    border-right: 10px solid #4CAF50;
+}

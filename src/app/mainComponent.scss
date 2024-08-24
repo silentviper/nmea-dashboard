@@ -1,0 +1,15 @@
+$theme-colors: (
+  'primary': #093ea8,
+  'secondary': #3bd7ec,
+  'success': #1ba016,
+  'info': #d8d8d8,
+  'warning': #ffbe0b,
+  'danger': #ff0000,
+  'light': #c0ccda,
+  'dark': #000103,
+);
+@import '/node_modules/bootstrap/scss/bootstrap.scss';
+
+body {
+  overflow: hidden;
+}

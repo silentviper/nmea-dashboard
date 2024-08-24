@@ -1,0 +1,16 @@
+.HomeComponent {
+    // padding: 10px;
+}
+.statusBox {
+    height: 10vw;
+}
+.switchBox {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    background-color: #000;
+    height: 20vh;
+}
+.gaugeBox {
+    display: grid;
+    height: 70vh;
+}

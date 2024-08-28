@@ -1,3 +1,5 @@
 .GaugesComponent {
     background-color: #000;
+    height: 300px; /* Set a specific height */
+    overflow-y: auto; /* Enable vertical scrolling */
 }

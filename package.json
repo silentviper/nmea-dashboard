@@ -6,6 +6,9 @@
     "appIcon": "./img/icon-72x72.png",
     "displayName": "NMEA Dashboard"
   },
+  "keywords": [
+    "signalk-webapp"
+  ],
   "signalk-plugin-enabled-by-default": true,
   "scripts": {
     "dev": "next dev",

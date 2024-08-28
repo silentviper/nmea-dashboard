@@ -4,6 +4,7 @@ import Image from 'next/image';
 
 import LogoComponent from "../logo.jsx";
 import TimeComponent from '../TimeComponent/TimeComponent';
+import GPSComponent from '../GPSComponent/GPSComponent';
 
 
 interface StatusBarComponentProps {}
@@ -11,7 +12,9 @@ interface StatusBarComponentProps {}
 const StatusBarComponent: FC<StatusBarComponentProps> = () => {
 
   return (<div className={styles.StatusBarComponent}>
-    <div></div>
+    <div className={styles.gpsBox}>
+      <GPSComponent></GPSComponent>
+    </div>
     <div className={styles.logoBox}>
       <LogoComponent />
     </div>

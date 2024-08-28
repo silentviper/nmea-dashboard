@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
 import styles from './TimeComponent.module.scss';
 
-interface TimeComponentProps {}
 
-const TimeComponent: FC<TimeComponentProps> = () => {
+export default function TimeComponent() {
   const [time, setTime] = React.useState(new Date());
 
   React.useEffect(() => {
@@ -27,5 +26,3 @@ const TimeComponent: FC<TimeComponentProps> = () => {
     </div>
   );
 };
-
-export default TimeComponent;

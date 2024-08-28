@@ -7,21 +7,17 @@ import TimeComponent from '../TimeComponent/TimeComponent';
 import GPSComponent from '../GPSComponent/GPSComponent';
 
 
-interface StatusBarComponentProps {}
-
-const StatusBarComponent: FC<StatusBarComponentProps> = () => {
+export default function StatusBarComponent() {
 
   return (<div className={styles.StatusBarComponent}>
     <div className={styles.gpsBox}>
       <GPSComponent></GPSComponent>
     </div>
     <div className={styles.logoBox}>
-      <LogoComponent />
+      <LogoComponent></LogoComponent>
     </div>
     <div className={styles.timeBox}>
-      <TimeComponent />
+      <TimeComponent></TimeComponent>
     </div>
   </div>);
 };
-
-export default StatusBarComponent;

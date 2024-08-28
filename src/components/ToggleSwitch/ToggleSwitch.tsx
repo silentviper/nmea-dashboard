@@ -17,7 +17,7 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({ path, name }) => {
     element.target.blur()
     axios({
       "method": "PUT",
-      "url": "http://venus.local:3000/signalk/v1/api/vessels/self/" + path.replace(/\./g, '/'),
+      "url": `http://${location.host}/signalk/v1/api/vessels/self/` + path.replace(/\./g, '/'),
       "headers": {
         "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkphbWVzTWNHaW5uZXNzIiwiaWF0IjoxNzI0MTE5NjgzfQ.2li_BlgX_4EaIi9XFGXG8JUwKe3-ThlJBMUdVViS4G8",
         "Content-Type": "application/json"
@@ -29,7 +29,7 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({ path, name }) => {
   };
 
   useEffect(() => {
-    const socket = new WebSocket('ws://venus.local:3000/signalk/v1/stream?subscribe=none');
+    const socket = new WebSocket(`ws://${location.host}/signalk/v1/stream?subscribe=none`);
 
     // Event handler for when the connection is established
     socket.onopen = function(event) {

@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
 import styles from './TimeComponent.module.scss';
 
-
 export default function TimeComponent() {
-  const [time, setTime] = React.useState(new Date());
+  const [time, setTime] = React.useState<Date | null>(null);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -15,10 +14,10 @@ export default function TimeComponent() {
     };
   }, []);
 
-  const formattedTime = new Date(time).toLocaleString([], {
+  const formattedTime = time ? new Date(time).toLocaleString([], {
       hour: '2-digit',
       minute: '2-digit'
-  });
+  }) : '';
 
   return (
     <div className={styles.TimeComponent}>

@@ -207,17 +207,7 @@ module.exports = (env) => {
     ],
     target: ["web", "es5"],
     optimization: {
-      minimize: env.production,
-      minimizer: [
-        new TerserPlugin({
-          terserOptions: {
-            format: {
-              comments: false,
-            },
-          },
-          extractComments: false,
-        }),
-      ],
-    },
+      minimize: false
+    }
   };
 };

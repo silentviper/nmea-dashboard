@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'export',
-    basePath: '/nmea-dashboard',
+    basePath: process.env == 'production' ? '/nmea-dashboard' : '',
     reactStrictMode: true,
     sassOptions: {
     },

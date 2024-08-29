@@ -17,7 +17,7 @@ export default function StatusBarComponent() {
       <LogoComponent></LogoComponent>
     </div>
     <div className={styles.timeBox}>
-      <TimeComponent></TimeComponent>
+      {/* <TimeComponent></TimeComponent> */}
     </div>
   </div>);
 };

@@ -3,7 +3,7 @@ import styles from './HomeComponent.module.scss';
 import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
 import GaugesComponent from '../GaugesComponent/GaugesComponent';
 import StatusBarComponent from '../StatusBarComponent/StatusBarComponent';
-
+import ErrorBoundary from 'components/ErrorBoundaryComponent';
 
 interface HomeComponentProps {}
 
@@ -61,17 +61,23 @@ const HomeComponent: FC<HomeComponentProps> = () => {
 
   return (
     <div className={styles.HomeComponent}>
-      <StatusBarComponent></StatusBarComponent>
+      <ErrorBoundary fallback={<p>Something went wrong</p>}><StatusBarComponent></StatusBarComponent></ErrorBoundary>
+      
       <div className={`${styles.gaugeBox}`}>
-        <GaugesComponent></GaugesComponent>
+      <ErrorBoundary fallback={<p>Something went wrong</p>}>
+          <GaugesComponent></GaugesComponent>
+        </ErrorBoundary>
       </div>
       <div className="">
         <div className={styles.switchBox}>
-        {paths.map((value) => (
+        { paths.map((value) => (
           <div key={value.path}>
+            <ErrorBoundary fallback={<p>Something went wrong</p>}>
+            
             <ToggleSwitch path={value.path} name={value.name} />
+            </ErrorBoundary>
           </div>
-        ))}
+        )) }
         </div>
       </div>
     </div>

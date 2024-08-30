@@ -8,8 +8,19 @@ $theme-colors: (
   'light': #c0ccda,
   'dark': #000103,
 );
-// @import '/node_modules/bootstrap/scss/bootstrap.scss';
+@import '/node_modules/bootstrap/scss/bootstrap.scss';
 
 body {
   // overflow: hidden;
+  background-color: #000;
+  margin: 0;
+  font-family: "Inter";
+}
+
+.textWhite {
+  color: #fff;
+}
+
+.text-center {
+  text-align: center;
 }

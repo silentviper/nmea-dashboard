@@ -81,7 +81,7 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({ path, name }) => {
 
   return (
     <div className={`${styles.ToggleSwitch}`}>
-      <span className={`${styles.switchBtn} ${enabled ? styles.on : ''}`} onClick={((e) => handleToggle(e))}>
+      <span className={`${styles.metal} ${styles.radial} ${enabled ? styles.on : ''}`} onClick={((e) => handleToggle(e))}>
         <span style={{ color: enabled ? 'green' : 'red' }}>&nbsp;</span>
       </span>
       <div>{name}</div> 

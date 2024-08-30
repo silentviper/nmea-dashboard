@@ -6,11 +6,13 @@
 }
 .switchBox {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    // background-color: #000;
-    height: 20vh;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 2;
+    background-color: #000;
+    height: 40vh;
+    color: #fff;
 }
 .gaugeBox {
     display: grid;
-    height: 70vh;
+    height: 50vh;
 }

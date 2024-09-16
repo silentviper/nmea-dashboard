@@ -18,8 +18,8 @@ const tiles = [
 		FeatureName: 'Signal K webapps',
 		Name: 'Dashboard',
 		Description: 'NMEA Dashboard',
-		Icon: 'http://192.168.x.x:3000/assets/img/logo.png',
-		URL: 'http://192.168.x.x:3000/nmea-dashboard/',
+		Icon: 'http://192.168.x.x:3001/assets/img/logo.png',
+		URL: 'http://192.168.x.x:3001/nmea-dashboard/',
 		MenuText: 'Signal K Menu Text',
 	},
 ];
@@ -35,8 +35,8 @@ const updateTilesIP = () => {
 				interfaceName === 'eth0'
 			) {
 				tiles[0].IP = addressInfo.address;
-				tiles[0].Icon = `http://${addressInfo.address}:3000/assets/img/logo.png`;
-				tiles[0].URL = `http://${addressInfo.address}:3000/nmea-dashboard/`;
+				tiles[0].Icon = `http://${addressInfo.address}:3001/assets/img/logo.png`;
+				tiles[0].URL = `http://${addressInfo.address}:3001/nmea-dashboard/`;
 			}
 		}
 	}

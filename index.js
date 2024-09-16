@@ -156,3 +156,60 @@ const publishToNavico = (tiles) => {
 		}
 	}
 };
+// Your existing code here...
+
+module.exports = (app) => {
+	const plugin = {
+		id: 'my-signalk-plugin',
+		name: 'My Great Plugin',
+		start: async (settings, restartPlugin) => {
+			// update tiles object with eth0 ip address
+			updateTilesIP();
+
+			// start up code goes here.
+			const nextApp = next({
+				dev: settings.env !== 'production',
+			});
+
+			const handler = routes.getRequestHandler(nextApp);
+
+			try {
+				await nextApp.prepare();
+				createServer((req, res) => {
+					const parsedUrl = parse(req.url, true);
+					handler(req, res, parsedUrl);
+				}).listen(settings.port, (err) => {
+					if (err) throw err;
+					debug(`Ready on localhost:${settings.port}`);
+				});
+			} catch (err) {
+				console.error('Error starting Next.js server:', err);
+			}
+
+			intervalid = setInterval(() => publishToNavico(tiles), 10 * 1000);
+		},
+		stop: () => {
+			// shutdown code goes here.
+			clearInterval(intervalid);
+		},
+		schema: {
+			type: 'object',
+			properties: {
+				env: {
+					type: 'string',
+					title: 'NextJS Environment',
+					default: 'production',
+				},
+				port: {
+					type: 'number',
+					title: 'NextJS Server Port',
+					default: 3001,
+				},
+			},
+		},
+	};
+
+	return plugin;
+};
+
+// Your existing code here...

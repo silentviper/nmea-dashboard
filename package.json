@@ -10,6 +10,7 @@
     "signalk-webapp"
   ],
   "signalk-plugin-enabled-by-default": true,
+  "main": "index.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

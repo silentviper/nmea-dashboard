@@ -1,10 +1,11 @@
-import { Plugin, PluginServerApp } from '@signalk/server-api';
-import { createServer } from 'http';
-import { parse } from 'url';
-import next from 'next';
-import dgram from 'dgram';
-import os from 'os';
-import debugLib from 'debug';
+const Plugin = require('@signalk/server-api').Plugin;
+const PluginServerApp = require('@signalk/server-api').PluginServerApp;
+const createServer = require('http').createServer;
+const parse = require('url').parse;
+const next = require('next');
+const dgram = require('dgram');
+const os = require('os');
+const debugLib = require('debug');
 
 const id = 'signalk-nmea-dashboard';
 const debug = debugLib(id);
@@ -42,10 +43,10 @@ const updateTilesIP = () => {
 	}
 };
 
-let intervalid: NodeJS.Timeout;
+let intervalid;
 
-module.exports = (app: PluginServerApp): Plugin => {
-	const plugin: Plugin = {
+module.exports = (app) => {
+	const plugin = {
 		id: 'my-signalk-plugin',
 		name: 'My Great Plugin',
 		start: async (settings, restartPlugin) => {
@@ -63,7 +64,7 @@ module.exports = (app: PluginServerApp): Plugin => {
 			try {
 				await nextApp.prepare();
 				createServer((req, res) => {
-					const parsedUrl = parse(req.url!, true);
+					const parsedUrl = parse(req.url, true);
 					handler(req, res, parsedUrl);
 				}).listen(settings.port, (err) => {
 					if (err) throw err;

@@ -7,7 +7,11 @@
     "displayName": "NMEA Dashboard"
   },
   "keywords": [
-    "signalk-webapp"
+    "signalk-webapp",
+    "signalk-node-server-plugin",
+    "instruments",
+    "dashboard",
+    "marine"
   ],
   "signalk-plugin-enabled-by-default": true,
   "main": "index.js",

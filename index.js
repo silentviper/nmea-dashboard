@@ -47,8 +47,8 @@ let intervalid;
 
 module.exports = (app) => {
 	const plugin = {
-		id: 'my-signalk-plugin',
-		name: 'My Great Plugin',
+		id: 'signalk-nmea-dashboard',
+		name: 'NMEA Dashboard',
 		start: async (settings, restartPlugin) => {
 			// update tiles object with eth0 ip address
 			updateTilesIP();
@@ -58,8 +58,7 @@ module.exports = (app) => {
 				dev: settings.env !== 'production',
 			});
 
-			const routes = require('./routes');
-			const handler = routes.getRequestHandler(nextApp);
+			const handler = nextApp.getRequestHandler(nextApp);
 
 			try {
 				await nextApp.prepare();

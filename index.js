@@ -109,7 +109,7 @@ module.exports = (app) => {
 		start: async (settings, restartPlugin) => {
 			// update tiles object with eth0 ip address
 			updateTilesIP();
-
+			app.debug('Tiles updated with IP address:', tiles);
 			try {
 				// start up code goes here.
 				const nextApp = next({
@@ -117,6 +117,7 @@ module.exports = (app) => {
 					dir: path.join(__dirname, 'src'), // Adjust this path to your Next.js app directory,
 					port: 3001,
 					swcMinify: false,
+					appDir: true,
 					conf: {
 						experimental: { useWasmBinary: false },
 					},

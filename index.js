@@ -110,17 +110,20 @@ module.exports = (app) => {
 			// update tiles object with eth0 ip address
 			updateTilesIP();
 
-			// start up code goes here.
-			const nextApp = next({
-				dev: true,
-				dir: path.join(__dirname, 'src'), // Adjust this path to your Next.js app directory,
-				port: 3001,
-				swcMinify: false,
-			});
-
-			const handler = nextApp.getRequestHandler(nextApp);
-
 			try {
+				// start up code goes here.
+				const nextApp = next({
+					dev: true,
+					dir: path.join(__dirname, 'src'), // Adjust this path to your Next.js app directory,
+					port: 3001,
+					swcMinify: false,
+					conf: {
+						experimental: { useWasmBinary: true },
+					},
+				});
+
+				const handler = nextApp.getRequestHandler(nextApp);
+
 				nextApp.prepare().then(() => {
 					createServer((req, res) => {
 						const parsedUrl = parse(req.url, true);

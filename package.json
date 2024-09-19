@@ -23,7 +23,7 @@
     "new": "npx generate-react-cli component"
   },
   "dependencies": {
-    "@next/font": "^14.2.7",
+    "@next/font": "13.2.4",
     "@types/globalthis": "^1.0.4",
     "globalthis": "^1.0.4",
     "debug": "^4.3.4"

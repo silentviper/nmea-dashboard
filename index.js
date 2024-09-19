@@ -168,7 +168,7 @@ module.exports = (app) => {
 				dev: settings.env !== 'production',
 			});
 
-			const handler = routes.getRequestHandler(nextApp);
+			const handler = nextApp.getRequestHandler(nextApp);
 
 			try {
 				await nextApp.prepare();

@@ -137,7 +137,7 @@ module.exports = (app) => {
 
 						app.debug(
 							`> Server listening at http://localhost:${3001} as ${
-								dev ? 'development' : process.env.NODE_ENV
+								settings.environment ? 'development' : process.env.NODE_ENV
 							}`
 						);
 					})

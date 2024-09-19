@@ -1,10 +1,11 @@
 const id = 'signalk-nmea-dashboard';
-const createServer = require('http').createServer;
 const parse = require('url').parse;
 const next = require('next');
 const dgram = require('dgram');
 const os = require('os');
 const debug = require('debug')(id);
+const path = require('path');
+const createServer = require('http').createServer;
 
 const PUBLISH_PORT = 2053;
 const MULTICAST_GROUP_IP = '239.2.1.1';
@@ -41,60 +42,6 @@ const updateTilesIP = () => {
 };
 
 let intervalid;
-
-module.exports = (app) => {
-	const plugin = {
-		id: 'signalk-nmea-dashboard',
-		name: 'NMEA Dashboard',
-		start: async (settings, restartPlugin) => {
-			// update tiles object with eth0 ip address
-			updateTilesIP();
-
-			// start up code goes here.
-			const nextApp = next({
-				dev: settings.env !== 'production',
-			});
-
-			const handler = nextApp.getRequestHandler(nextApp);
-
-			try {
-				await nextApp.prepare();
-				createServer((req, res) => {
-					const parsedUrl = parse(req.url, true);
-					handler(req, res, parsedUrl);
-				}).listen(settings.port, (err) => {
-					if (err) throw err;
-					debug(`Ready on localhost:${settings.port}`);
-				});
-			} catch (err) {
-				console.error('Error starting Next.js server:', err);
-			}
-
-			intervalid = setInterval(() => publishToNavico(tiles), 10 * 1000);
-		},
-		stop: () => {
-			// shutdown code goes here.
-			clearInterval(intervalid);
-		},
-		schema: {
-			type: 'object',
-			properties: {
-				env: {
-					type: 'string',
-					title: 'NextJS Environment',
-					default: 'production',
-				},
-				port: {
-					type: 'number',
-					title: 'NextJS Server Port',
-					default: 3001,
-				},
-			},
-		},
-	};
-
-	return plugin;
-};
 
 const getPublishMessage = (tile) => {
 	return JSON.stringify({
@@ -157,30 +104,37 @@ const publishToNavico = (tiles) => {
 
 module.exports = (app) => {
 	const plugin = {
-		id: 'my-signalk-plugin',
-		name: 'My Great Plugin',
+		id: 'nmea-dashboard',
+		name: 'NMEA Dashboard',
 		start: async (settings, restartPlugin) => {
 			// update tiles object with eth0 ip address
 			updateTilesIP();
 
 			// start up code goes here.
 			const nextApp = next({
-				dev: settings.env !== 'production',
+				dev: true,
+				dir: path.join(__dirname, 'src'), // Adjust this path to your Next.js app directory,
+				port: 3001,
+				swcMinify: false,
 			});
 
 			const handler = nextApp.getRequestHandler(nextApp);
 
 			try {
-				await nextApp.prepare();
-				createServer((req, res) => {
-					const parsedUrl = parse(req.url, true);
-					handler(req, res, parsedUrl);
-				}).listen(settings.port, (err) => {
-					if (err) throw err;
-					debug(`Ready on localhost:${settings.port}`);
+				nextApp.prepare().then(() => {
+					createServer((req, res) => {
+						const parsedUrl = parse(req.url, true);
+						handler(req, res, parsedUrl);
+					}).listen(3001);
+
+					debug(
+						`> Server listening at http://localhost:${3001} as ${
+							dev ? 'development' : process.env.NODE_ENV
+						}`
+					);
 				});
 			} catch (err) {
-				console.error('Error starting Next.js server:', err);
+				debug('Error starting Next.js server:', err);
 			}
 
 			intervalid = setInterval(() => publishToNavico(tiles), 10 * 1000);
@@ -208,5 +162,3 @@ module.exports = (app) => {
 
 	return plugin;
 };
-
-// Your existing code here...

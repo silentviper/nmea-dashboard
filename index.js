@@ -118,24 +118,30 @@ module.exports = (app) => {
 					port: 3001,
 					swcMinify: false,
 					conf: {
-						experimental: { useWasmBinary: true },
+						experimental: { useWasmBinary: false },
 					},
 				});
 
 				const handler = nextApp.getRequestHandler(nextApp);
 
-				nextApp.prepare().then(() => {
-					createServer((req, res) => {
-						const parsedUrl = parse(req.url, true);
-						handler(req, res, parsedUrl);
-					}).listen(3001);
+				nextApp
+					.prepare()
+					.then(() => {
+						debug('Next.js app is prepared');
+						createServer((req, res) => {
+							const parsedUrl = parse(req.url, true);
+							handler(req, res, parsedUrl);
+						}).listen(3001);
 
-					debug(
-						`> Server listening at http://localhost:${3001} as ${
-							dev ? 'development' : process.env.NODE_ENV
-						}`
-					);
-				});
+						debug(
+							`> Server listening at http://localhost:${3001} as ${
+								dev ? 'development' : process.env.NODE_ENV
+							}`
+						);
+					})
+					.catch((err) => {
+						debug('Error starting Next.js server:', err);
+					});
 			} catch (err) {
 				debug('Error starting Next.js server:', err);
 			}

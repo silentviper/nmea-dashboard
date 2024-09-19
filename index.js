@@ -127,23 +127,23 @@ module.exports = (app) => {
 				nextApp
 					.prepare()
 					.then(() => {
-						debug('Next.js app is prepared');
+						app.debug('Next.js app is prepared');
 						createServer((req, res) => {
 							const parsedUrl = parse(req.url, true);
 							handler(req, res, parsedUrl);
 						}).listen(3001);
 
-						debug(
+						app.debug(
 							`> Server listening at http://localhost:${3001} as ${
 								dev ? 'development' : process.env.NODE_ENV
 							}`
 						);
 					})
 					.catch((err) => {
-						debug('Error starting Next.js server:', err);
+						app.debug('Error starting Next.js server:', err);
 					});
 			} catch (err) {
-				debug('Error starting Next.js server:', err);
+				app.debug('Error starting Next.js server:', err);
 			}
 
 			intervalid = setInterval(() => publishToNavico(tiles), 10 * 1000);

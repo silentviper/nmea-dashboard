@@ -25,7 +25,8 @@
   "dependencies": {
     "@next/font": "^14.2.7",
     "@types/globalthis": "^1.0.4",
-    "globalthis": "^1.0.4"
+    "globalthis": "^1.0.4",
+    "debug": "^4.3.4"
   },
   "devDependencies": {
     "next": "14.2.6",

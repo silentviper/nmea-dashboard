@@ -1,12 +1,11 @@
+const id = 'signalk-nmea-dashboard';
 const createServer = require('http').createServer;
 const parse = require('url').parse;
 const next = require('next');
 const dgram = require('dgram');
 const os = require('os');
-const debugLib = require('debug');
+const debug = require('debug')(id);
 
-const id = 'signalk-nmea-dashboard';
-const debug = debugLib(id);
 const PUBLISH_PORT = 2053;
 const MULTICAST_GROUP_IP = '239.2.1.1';
 

@@ -29,7 +29,7 @@
     "debug": "^4.3.4"
   },
   "devDependencies": {
-    "next": "14.2.6",
+    "next": "13.2.4",
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
     "@eslint/js": "^9.8.0",
@@ -47,7 +47,7 @@
     "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^7.1.2",
     "eslint": "^8",
-    "eslint-config-next": "14.2.6",
+    "eslint-config-next": "13.2.4",
     "esri-leaflet": "^3.0.12",
     "esri-leaflet-geocoder": "^3.1.4",
     "mini-css-extract-plugin": "^2.9.0",

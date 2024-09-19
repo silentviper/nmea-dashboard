@@ -118,8 +118,9 @@ module.exports = (app) => {
 					port: 3001,
 					swcMinify: false,
 					appDir: true,
-					conf: {
-						experimental: { useWasmBinary: false },
+					experimental: {
+						useWasmBinary: false,
+						appDir: true,
 					},
 				});
 

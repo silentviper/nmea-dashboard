@@ -7,6 +7,9 @@ const nextConfig = {
 	sassOptions: {},
 	swcMinify: false,
 	appDir: true,
+	experimental: {
+		appDir: true,
+	},
 };
 
 export default nextConfig;

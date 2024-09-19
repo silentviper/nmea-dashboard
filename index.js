@@ -1,5 +1,3 @@
-const Plugin = require('@signalk/server-api').Plugin;
-const PluginServerApp = require('@signalk/server-api').PluginServerApp;
 const createServer = require('http').createServer;
 const parse = require('url').parse;
 const next = require('next');

@@ -27,7 +27,9 @@
     "@next/font": "13.2.4",
     "@types/globalthis": "^1.0.4",
     "globalthis": "^1.0.4",
-    "debug": "^4.3.4",
+    "debug": "^4.3.4"
+  },
+  "devDependencies": {
     "next": "13.2.4",
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",

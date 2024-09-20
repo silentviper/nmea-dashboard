@@ -20,7 +20,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "new": "npx generate-react-cli component"
+    "new": "npx generate-react-cli component",
+    "install": "next build"
   },
   "dependencies": {
     "@next/font": "13.2.4",

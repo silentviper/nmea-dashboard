@@ -1,19 +1,24 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import path from 'path';
+import { resolve } from 'path';
 
-// https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [vue()],
 	resolve: {
 		alias: {
-			'@': path.resolve(__dirname, './src'),
+			'@': resolve(__dirname, './src'),
 		},
 	},
-	css: {
-		preprocessorOptions: {
-			scss: {
-				additionalData: `@import "@/styles/variables.scss";`,
+	base: '/nmea-dashboard/',
+	build: {
+		outDir: 'dist',
+		emptyOutDir: true,
+		sourcemap: true,
+		rollupOptions: {
+			output: {
+				manualChunks: {
+					vendor: ['vue', 'vue-router', 'pinia'],
+				},
 			},
 		},
 	},

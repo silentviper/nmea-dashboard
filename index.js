@@ -1,3 +1,10 @@
+const express = require('express');
+const path = require('path');
+const { exec } = require('child_process');
+const fs = require('fs').promises;
+
+const http = require('http');
+
 const id = 'signalk-nmea-dashboard';
 const parse = require('url').parse;
 const next = require('next');
@@ -103,68 +110,127 @@ const publishToNavico = (tiles) => {
 // Your existing code here...
 
 module.exports = (app) => {
+	let webServer = null;
+
+	async function buildVueApp() {
+		const vueAppPath = path.join(__dirname, 'vue-app');
+
+		try {
+			// Check if node_modules exists, if not run npm install
+			try {
+				await fs.access(path.join(vueAppPath, 'node_modules'));
+			} catch {
+				app.debug('Installing Vue app dependencies...');
+				await new Promise((resolve, reject) => {
+					exec(
+						'npm install',
+						{
+							cwd: vueAppPath,
+						},
+						(error, stdout, stderr) => {
+							if (error) {
+								app.error('Failed to install dependencies:', error);
+								reject(error);
+								return;
+							}
+							app.debug('Dependencies installed');
+							resolve();
+						}
+					);
+				});
+			}
+
+			// Build the Vue app using Vite
+			app.debug('Building Vue application...');
+			await new Promise((resolve, reject) => {
+				exec(
+					'npm run build',
+					{
+						cwd: vueAppPath,
+						env: {
+							...process.env,
+							NODE_ENV: 'production',
+						},
+					},
+					(error, stdout, stderr) => {
+						if (error) {
+							app.error('Build failed:', error);
+							reject(error);
+							return;
+						}
+						app.debug('Vue app built successfully');
+						resolve();
+					}
+				);
+			});
+		} catch (error) {
+			app.error('Failed to build Vue app:', error);
+			throw error;
+		}
+	}
+
 	const plugin = {
 		id: 'nmea-dashboard',
 		name: 'NMEA Dashboard',
 		start: async (settings, restartPlugin) => {
 			// update tiles object with eth0 ip address
+
+			// Check if we are in production mode
+			const isProd = process.env.NODE_ENV === 'production';
 			updateTilesIP();
 			app.debug('Tiles updated with IP address:', tiles);
+
 			try {
-				// start up code goes here.
-				const nextApp = next({
-					dev: true,
-					dir: path.join(__dirname, 'src'), // Adjust this path to your Next.js app directory,
-					port: 3001,
-					swcMinify: false,
-					appDir: true,
-					experimental: {
-						useWasmBinary: false,
-						appDir: true,
-					},
+				// Build Vue app before starting server
+				await buildVueApp();
+
+				// Start Express server
+				const server = express();
+
+				// Serve static Vue.js files from the Vite build directory
+				const publicPath = path.join(__dirname, 'vue-app', 'dist');
+				server.use(express.static(publicPath));
+
+				// Handle SPA routing - send all requests to index.html
+				server.get('*', (req, res, next) => {
+					if (!req.path.startsWith('/api')) {
+						res.sendFile(path.join(publicPath, 'index.html'));
+					} else {
+						next();
+					}
 				});
 
-				const handler = nextApp.getRequestHandler(nextApp);
-
-				nextApp
-					.prepare()
-					.then(() => {
-						app.debug('Next.js app is prepared');
-						createServer((req, res) => {
-							const parsedUrl = parse(req.url, true);
-							handler(req, res, parsedUrl);
-						}).listen(3001);
-
-						app.debug(
-							`> Server listening at http://localhost:${3001} as ${
-								settings.environment ? 'development' : process.env.NODE_ENV
-							}`
-						);
-					})
-					.catch((err) => {
-						app.debug('Error starting Next.js server:', err);
-					});
-			} catch (err) {
-				app.debug('Error starting Next.js server:', err);
+				// Start the server
+				const serverPort = settings.port || 3001;
+				webServer = server.listen(serverPort, () => {
+					app.debug(`Web interface started on port ${serverPort}`);
+					intervalid = setInterval(() => publishToNavico(tiles), 10 * 1000);
+				});
+			} catch (error) {
+				app.error('Failed to start plugin:', error);
+				throw error;
 			}
-
-			intervalid = setInterval(() => publishToNavico(tiles), 10 * 1000);
 		},
 		stop: () => {
-			// shutdown code goes here.
 			clearInterval(intervalid);
+			// shutdown code goes here.
+			if (webServer) {
+				webServer.close();
+				webServer = null;
+			}
+			app.debug('Plugin stopped');
 		},
 		schema: {
 			type: 'object',
 			properties: {
 				env: {
 					type: 'string',
-					title: 'NextJS Environment',
+					title: 'Vue Environment',
 					default: 'production',
 				},
 				port: {
 					type: 'number',
-					title: 'NextJS Server Port',
+					title: 'Web Server Port',
 					default: 3001,
 				},
 			},

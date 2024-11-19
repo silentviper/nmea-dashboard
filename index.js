@@ -3,16 +3,10 @@ const path = require('path');
 const { exec } = require('child_process');
 const fs = require('fs').promises;
 
-const http = require('http');
-
 const id = 'signalk-nmea-dashboard';
-const parse = require('url').parse;
-const next = require('next');
 const dgram = require('dgram');
 const os = require('os');
 const debug = require('debug')(id);
-const path = require('path');
-const createServer = require('http').createServer;
 
 const PUBLISH_PORT = 2053;
 const MULTICAST_GROUP_IP = '239.2.1.1';

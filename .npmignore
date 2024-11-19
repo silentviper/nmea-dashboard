@@ -1,0 +1,28 @@
+# Development files
+.git
+.gitignore
+.eslintrc
+.prettierrc
+*.log
+
+# Editor directories
+.idea
+.vscode
+
+# Vue app source (but keep the dist folder)
+vue-app/src
+vue-app/public
+vue-app/node_modules
+vue-app/*.config.js
+vue-app/*.config.ts
+vue-app/tsconfig.json
+vue-app/.vscode
+!vue-app/dist
+
+# Development dependencies
+node_modules
+
+# Test files
+**/*.test.js
+**/*.spec.js
+coverage/

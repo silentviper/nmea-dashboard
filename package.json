@@ -16,7 +16,6 @@
 	"signalk-plugin-enabled-by-default": true,
 	"main": "index.js",
 	"scripts": {
-		"postinstall": "node postinstall.js",
 		"build": "cd vue-app && npm install && npm run build",
 		"dev": "cd vue-app && npm run dev",
 		"lint": "cd vue-app && npm run lint",

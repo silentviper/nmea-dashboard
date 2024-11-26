@@ -39,7 +39,7 @@ class NavicoPublisher {
 				) {
 					this.tiles[0].IP = addressInfo.address;
 					this.tiles[0].Icon = `http://${addressInfo.address}:3001/assets/img/logo.png`;
-					this.tiles[0].URL = `http://${addressInfo.address}:3001/nmea-dashboard/`;
+					this.tiles[0].URL = `http://${addressInfo.address}:3001/`;
 				}
 			}
 		}
@@ -149,7 +149,7 @@ module.exports = (app) => {
 				server.use('/nmea-dashboard', express.static(publicPath));
 
 				// Handle SPA routing
-				server.get('/nmea-dashboard/*', (req, res) => {
+				server.get('/*', (req, res) => {
 					res.sendFile(path.join(publicPath, 'index.html'));
 				});
 

@@ -1,8 +1,6 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import axios from 'axios'
 import { useSignalK } from '@/composables/useSignalK'
-import ErrorHandler from '@/components/ErrorHandlerComponent/ErrorHandler.vue'
 
 const props = defineProps<{
     path: string
@@ -11,64 +9,57 @@ const props = defineProps<{
 
 const enabled = ref(false)
 const error = ref<Error | null>(null)
-const signalK = useSignalK()
 
-const handleToggle = async (event: Event) => {
-    const target = event.target as HTMLElement
-    target.blur()
+// Initialize SignalK with port 3000
+const signalK = useSignalK({
+    port: 3000,
+    // You can also specify other options:
+    // host: 'localhost',
+    // protocol: 'ws',
+    // apiVersion: 'v1'
+});
 
+const handleToggle = async () => {
     try {
-        await axios({
-            method: "PUT",
-            url: `http://${location.host}/signalk/v1/api/vessels/self/${props.path.replace(/\./g, '/')}`,
-            headers: {
-                Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkphbWVzTWNHaW5uZXNzIiwiaWF0IjoxNzI0MTE5NjgzfQ.2li_BlgX_4EaIi9XFGXG8JUwKe3-ThlJBMUdVViS4G8",
-                "Content-Type": "application/json"
-            },
-            data: {
-                value: !enabled.value
-            }
-        })
+        await signalK.put(props.path, !enabled.value, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkphbWVzTWNHaW5uZXNzIiwiaWF0IjoxNzI0MTE5NjgzfQ.2li_BlgX_4EaIi9XFGXG8JUwKe3-ThlJBMUdVViS4G8"');
     } catch (err) {
-        error.value = err as Error
-        console.error("Error making PUT request:", err)
+        error.value = err as Error;
+        console.error("Error making PUT request:", err);
     }
 }
 
 const handleSignalKMessage = (message: any) => {
-    const value = message.updates?.[0]?.values?.[0]?.value
+    const value = message.updates?.[0]?.values?.[0]?.value;
     if (value !== undefined) {
-        enabled.value = value
+        enabled.value = value;
     }
 }
 
 onMounted(() => {
-    signalK.connect()
+    signalK.connect();
     signalK.subscribe({
         path: props.path,
         period: 500
-    })
-    signalK.addMessageHandler(handleSignalKMessage)
-})
+    });
+    signalK.addMessageHandler(handleSignalKMessage);
+});
 
 onUnmounted(() => {
-    signalK.removeMessageHandler(handleSignalKMessage)
-    signalK.disconnect()
-})
+    signalK.removeMessageHandler(handleSignalKMessage);
+    signalK.disconnect();
+});
 </script>
 
 <template>
-    <ErrorHandler :fallback="(err) => `Error: ${err.message}`">
-        <div class="toggle-switch">
-            <span :class="['metal', 'radial', enabled ? 'on' : '']" @click="handleToggle">
-                <span :style="{ color: enabled ? 'green' : 'red' }">&nbsp;</span>
-            </span>
-            <div>{{ name }}</div>
-            <div v-if="error" class="error-message">
-                {{ error.message }}
-            </div>
+    <div class="toggle-switch">
+        <span :class="['metal', 'radial', enabled ? 'on' : '']" @click="handleToggle">
+            <span :style="{ color: enabled ? 'green' : 'red' }">&nbsp;</span>
+        </span>
+        <div>{{ name }}</div>
+        <div v-if="error" class="error-message">
+            {{ error.message }}
         </div>
-    </ErrorHandler>
+    </div>
 </template>
 
 <style lang="scss" scoped>
@@ -140,8 +131,8 @@ onUnmounted(() => {
 
 /* Metal ------------------------- */
 
-.metal {
-    position: relative;
+    .metal {
+        position: relative;
     margin: 5px auto;
     outline: none;
 
@@ -187,7 +178,7 @@ onUnmounted(() => {
         -webkit-repeating-radial-gradient(50% 50%, 100% 100%, hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100%, 0) 1.2%, hsla(0, 0%, 100%, .2) 2.2%),
 
         -webkit-radial-gradient(50% 50%, 200% 50%, hsla(0, 0%, 90%, 1) 5%, hsla(0, 0%, 85%, 1) 30%, hsla(0, 0%, 60%, 1) 100%);
-}
+        }
 
 
 .metal.radial:before,
@@ -205,15 +196,15 @@ onUnmounted(() => {
         -webkit-radial-gradient(50% 100%, 10% 50%, hsla(0, 0%, 0%, .1) 0%, hsla(0, 0%, 0%, 0) 100%),
         -webkit-radial-gradient(0% 50%, 50% 10%, hsla(0, 0%, 0%, .1) 0%, hsla(0, 0%, 0%, 0) 100%),
         -webkit-radial-gradient(100% 50%, 50% 06%, hsla(0, 0%, 0%, .1) 0%, hsla(0, 0%, 0%, 0) 100%);
-}
+        }
 
 .metal.radial:before {
     transform: rotate(65deg);
-}
+    }
 
 .metal.radial:after {
     transform: rotate(-65deg);
-}
+    }
 
 .metal.radial.on {
     box-shadow: inset hsla(137, 100%, 75%, 1) 0 0px 0px 4px,
